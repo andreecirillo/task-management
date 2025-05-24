@@ -1,19 +1,19 @@
-## Task Management - Vue 3 Frontend
+# Task Management - Vue 3 Frontend
 
-### Setup
+## Setup
 
-#### 1. Install dependencies:
+### 1. Install dependencies:
 
 ```bash
 npm install  
 ```
-#### 3. Config backend url at nuxt.config.js and start the development server:
+### 3. Config backend url at nuxt.config.js and start the development server:
 
 ```bash
 npm run dev  
 ```
 
-### Architecture
+## Architecture
 
 > Vue 3 with Composition API for component logic.
 >
@@ -25,9 +25,9 @@ npm run dev
 >
 > VeeValidate for robust form validation on the client side.
 
-### Features
+## Features
 
-#### User Authentication:
+### User Authentication:
 
 - Registration
 
@@ -37,7 +37,7 @@ npm run dev
 
 - Token stored and used for authenticated API requests
 
-#### Task Management:
+### Task Management:
 
 - Create task
 
@@ -47,19 +47,19 @@ npm run dev
 
 - Search tasks by title or description
 
-#### Category Management:
+### Category Management:
 
 - Categories loaded into the Pinia store
 
 - Used for task filtering
 
-#### Reactive UI:
+### Reactive UI:
 
 - State-driven updates through Pinia
 
 - Real-time feedback on task filtering and searching
 
-#### Responsive Design:
+### Responsive Design:
 
 - Mobile-friendly and adaptable layout
 
