@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Illuminate\Validation\Rule;
 
 /**  
  * @OA\Info(  
@@ -42,11 +43,25 @@ class UsersController extends Controller
      *             @OA\Property(property="expires_in", type="integer")  
      *         )  
      *     ),  
-     *     @OA\Response(response=401, description="Invalid credentials")  
+     *     @OA\Response(
+     *         response=400,
+     *         description="Validation error"
+     *     ),
+     *     @OA\Response(response=401, description="Invalid credentials"),  
+     *     @OA\Response(response=500, description="Could not create token")  
      * )  
      */
     public function login(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|min:6|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
         $credentials = $request->only('email', 'password');
 
         try {
@@ -95,7 +110,7 @@ class UsersController extends Controller
 
     /**  
      * @OA\Post(  
-     *     path="/api/users/register",  
+     *     path="/api/users",  
      *     summary="Register",  
      *     tags={"Users"},  
      *     @OA\RequestBody(  
@@ -114,7 +129,11 @@ class UsersController extends Controller
      *             @OA\Property(property="message", type="string"),  
      *             @OA\Property(property="user", type="object")  
      *         )  
-     *     )  
+     *     ),  
+     *     @OA\Response(
+     *         response=400,
+     *         description="Validation error"
+     *     )
      * )  
      */
     public function register(Request $request)
@@ -141,7 +160,7 @@ class UsersController extends Controller
 
     /**  
      * @OA\Put(  
-     *     path="/api/users/update",  
+     *     path="/api/users",  
      *     summary="Update",  
      *     tags={"Users"},       
      *     security={{"bearerAuth": {}}},
@@ -157,16 +176,22 @@ class UsersController extends Controller
      *     @OA\Response(  
      *         response=200,  
      *         description="User updated successful"  
-     *     )  
+     *     ),  
+     *     @OA\Response(
+     *         response=400,
+     *         description="Validation error"
+     *     )
      * )  
      */
     public function update(Request $request)
     {
-        if ($result = $this->validateUser($request)) {
+        $user = Auth::user();
+
+        if ($result = $this->validateUser($request, $user->id)) {
             return $result;
         }
 
-        $user = User::update([
+        $user->update([
             'name' => $request->get('name'),
             'email' => $request->get('email'),
             'password' => Hash::make($request->get('password')),
@@ -177,16 +202,22 @@ class UsersController extends Controller
         return response()->json(['message' => 'User updated successful', 'user' => $user]);
     }
 
-    protected function validateUser($request)
+    protected function validateUser($request, $userId = null)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique('users')->ignore($userId)
+            ],
             'password' => 'required|string|min:6|max:255',
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 400);
+            return response()->json($validator->errors(), 400);
         }
     }
 }

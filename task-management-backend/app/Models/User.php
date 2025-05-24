@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Foundation\Auth\User as Authenticatable;  
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**  
@@ -13,20 +13,20 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property string $password
  * @property DateTime $updated_at 
  * @property DateTime $created_at
- */  
-class User extends Authenticatable implements JWTSubject 
+ */
+class User extends Authenticatable implements JWTSubject
 {
     // Fields permitted for mass attribution.
     protected $fillable = ['name', 'email', 'password'];
-    
+
     // Fields that won't be serialized.
-    protected $hidden = ['password'];
+    protected $hidden = ['id', 'password'];
 
     public function getJWTIdentifier()
     {
         return $this->getKey();
     }
-    
+
     public function getJWTCustomClaims()
     {
         return [];

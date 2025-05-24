@@ -11,6 +11,50 @@ class TasksController extends Controller
 {
     /**
      * @OA\Get(
+     *     path="/api/tasks/{id}",
+     *     tags={"Tasks"},
+     *     summary="Get task by ID",
+     *     security={{"bearerAuth": {}}}, 
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="Task ID",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Task detail",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="id", type="integer"),
+     *             @OA\Property(property="title", type="string"),
+     *             @OA\Property(property="description", type="string", nullable=true),
+     *             @OA\Property(property="category", type="integer", nullable=true),
+     *             @OA\Property(property="created_at", type="string", format="date-time"),
+     *             @OA\Property(property="updated_at", type="string", format="date-time")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Task not found"
+     *     )
+     * )
+     */
+    public function show($id)
+    {
+        $task = Task::where('user_id', Auth::id())->find($id);
+
+        if (!$task) {
+            return response()->json(['message' => 'Task not found'], 404);
+        }
+
+        return response()->json($task);
+    }
+
+
+    /**
+     * @OA\Get(
      *     path="/api/tasks",
      *     tags={"Tasks"},
      *     summary="Tasks list",
@@ -245,6 +289,16 @@ class TasksController extends Controller
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
+        }
+
+        $category = $request->get('category');
+
+        if ($category !== null) {
+            $validCategoryIds = array_column($this->getCategories(), 'id');
+
+            if (!in_array($category, $validCategoryIds)) {
+                return response()->json(['category' => ['Category invalid.']], 400);
+            }
         }
     }
 }
