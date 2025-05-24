@@ -11,12 +11,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property int|null $category
  * @property DateTime|null $created_at
  * @property DateTime $updated_at  
+ * @property int $category_id
  * @property int $user_id
  */
 class Task extends Model
 {
     // Fields permitted for mass attribution.
-    protected $fillable = ['title', 'description', 'category', 'user_id'];
+    protected $fillable = ['title', 'description', 'category_id', 'user_id'];
 
     // Fields that won't be serialized.
     protected $hidden = ['user_id'];
@@ -24,5 +25,10 @@ class Task extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }

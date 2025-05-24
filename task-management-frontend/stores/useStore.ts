@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { useLoading } from '~/composables/useLoading'
 
 interface User {
     name: string
@@ -19,46 +20,81 @@ export const useStore = defineStore('store', {
 
     actions: {
         hydrate() {
-            if (typeof window !== 'undefined') {
-                const user = localStorage.getItem('user')
-                const token = localStorage.getItem('token')
-                const categories = localStorage.getItem('categories')
+            const { start, stop } = useLoading()
+            start()
 
-                this.user = user ? (JSON.parse(user) as User) : null
-                this.token = token || ''
-                this.categories = categories ? (JSON.parse(categories) as Category[]) : []
+            try {
+                if (typeof window !== 'undefined') {
+                    const user = localStorage.getItem('user')
+                    const token = localStorage.getItem('token')
+                    const categories = localStorage.getItem('categories')
+
+                    this.user = user ? (JSON.parse(user) as User) : null
+                    this.token = token || ''
+                    this.categories = categories ? (JSON.parse(categories) as Category[]) : []
+                }
+            } finally {
+                stop()
             }
         },
 
         setUser(newUser: User) {
-            this.user = newUser
-            if (typeof window !== 'undefined') {
-                localStorage.setItem('user', JSON.stringify(newUser))
+            const { start, stop } = useLoading()
+            start()
+
+            try {
+                this.user = newUser
+                if (typeof window !== 'undefined') {
+                    localStorage.setItem('user', JSON.stringify(newUser))
+                }
+            } finally {
+                stop()
             }
         },
 
         setToken(newToken: string) {
-            this.token = newToken
-            if (typeof window !== 'undefined') {
-                localStorage.setItem('token', newToken)
+            const { start, stop } = useLoading()
+            start()
+
+            try {
+                this.token = newToken
+                if (typeof window !== 'undefined') {
+                    localStorage.setItem('token', newToken)
+                }
+            } finally {
+                stop()
             }
         },
 
         setCategories(newCategories: Category[]) {
-            this.categories = newCategories
-            if (typeof window !== 'undefined') {
-                localStorage.setItem('categories', JSON.stringify(newCategories))
+            const { start, stop } = useLoading()
+            start()
+
+            try {
+                this.categories = newCategories
+                if (typeof window !== 'undefined') {
+                    localStorage.setItem('categories', JSON.stringify(newCategories))
+                }
+            } finally {
+                stop()
             }
         },
 
         logout() {
-            this.user = null
-            this.token = ''
-            this.categories = []
-            if (typeof window !== 'undefined') {
-                localStorage.removeItem('user')
-                localStorage.removeItem('token')
-                localStorage.removeItem('categories')
+            const { start, stop } = useLoading()
+            start()
+
+            try {
+                this.user = null
+                this.token = ''
+                this.categories = []
+                if (typeof window !== 'undefined') {
+                    localStorage.removeItem('user')
+                    localStorage.removeItem('token')
+                    localStorage.removeItem('categories')
+                }
+            } finally {
+                stop()
             }
         }
     }

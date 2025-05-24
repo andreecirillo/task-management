@@ -62,10 +62,14 @@ const deleteTask = async (id: number) => {
   }
 }
 
-function getCategoryName(categoryId: number | null) {
-  const category = categories.value.find(cat => cat.id === categoryId)
+function getCategoryName(category_id: number | null) {
+  if (!category_id) return ''
+
+  const category = categories.value.find(cat => cat.id === category_id)
+
   return category ? category.name : ''
 }
+
 
 </script>
 
@@ -98,7 +102,7 @@ function getCategoryName(categoryId: number | null) {
         <div>
           <h2 class="text-lg font-semibold">{{ task.title }}</h2>
           <p class="text-gray-600">{{ task.description }}</p>
-          <span class="text-xs text-gray-500">Category: {{ getCategoryName(task.category) }}</span>
+          <span class="text-xs text-gray-500">Category: {{ getCategoryName(task.category_id) }}</span>
         </div>
         <div class="flex gap-2 mt-2 md:mt-0">
           <button @click="editTask(task)" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">

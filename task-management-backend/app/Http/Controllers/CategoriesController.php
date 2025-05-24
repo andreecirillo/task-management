@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Task;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Category;
 
 class CategoriesController extends Controller
 {
@@ -29,9 +26,9 @@ class CategoriesController extends Controller
      *     )     
      * )
      */
-    public function index(Request $request)
+    public function index()
     {
-        $categories = $this->getCategories();
+        $categories = Category::all();
 
         return response()->json($categories);
     }

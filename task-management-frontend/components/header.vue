@@ -27,12 +27,13 @@ const logout = async () => {
         </h1>
 
         <nav v-if="isLogged" class="space-x-4">
-            <a href="/tasks" class="hover:underline">Tasks</a>
-            <a href="/user" class="hover:underline">Edit User</a>
+            <NuxtLink to="/tasks" class="hover:underline">Tasks</NuxtLink>
+            <NuxtLink to="/user" class="hover:underline">Edit User</NuxtLink>
             <button @click="logout" class="hover:underline">Logout</button>
         </nav>
+
         <nav v-else>
-            <a href="/user" class="hover:underline">Register</a>
+            <NuxtLink to="/user" class="hover:underline">Register</NuxtLink>
         </nav>
     </header>
 </template>

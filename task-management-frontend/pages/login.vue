@@ -31,7 +31,19 @@ const submit = handleSubmit(async (values) => {
     store.setCategories(categories)
     router.push('/tasks')
   } catch (error: any) {
-    errorMessage.value = error.message
+    if (error.data) {
+      if (typeof error.data === 'string') {
+        errorMessage.value = error.data
+      } else {
+        try {
+          errorMessage.value = Object.values(error.data).flat().join(' ')
+        } catch {
+          errorMessage.value = JSON.stringify(error.data)
+        }
+      }
+    } else {
+      errorMessage.value = error.message
+    }
   }
 })
 </script>

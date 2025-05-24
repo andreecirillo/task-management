@@ -137,7 +137,7 @@
                                     "description": {
                                         "type": "string"
                                     },
-                                    "category": {
+                                    "category_id": {
                                         "type": "integer"
                                     }
                                 },
@@ -247,7 +247,7 @@
                 "operationId": "49e73b9da657e3e2dac88d10e4ffaa4b",
                 "parameters": [
                     {
-                        "name": "category",
+                        "name": "category_id",
                         "in": "query",
                         "description": "Category filter",
                         "required": false,
@@ -293,7 +293,7 @@
                                                 "type": "string",
                                                 "nullable": true
                                             },
-                                            "category": {
+                                            "category_id": {
                                                 "type": "integer",
                                                 "nullable": true
                                             },
@@ -369,7 +369,7 @@
                                             "type": "string",
                                             "nullable": true
                                         },
-                                        "category": {
+                                        "category_id": {
                                             "type": "integer",
                                             "nullable": true
                                         },

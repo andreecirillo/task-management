@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -60,7 +61,7 @@ class TasksController extends Controller
      *     summary="Tasks list",
      *     security={{"bearerAuth": {}}},
      *    @OA\Parameter(
-     *         name="category",
+     *         name="category_id",
      *         in="query",
      *         description="Category filter",
      *         required=false,
@@ -90,7 +91,7 @@ class TasksController extends Controller
      *                 @OA\Property(property="id", type="integer"),
      *                 @OA\Property(property="title", type="string"),
      *                 @OA\Property(property="description", type="string", nullable=true),
-     *                 @OA\Property(property="category", type="integer", nullable=true),     
+     *                 @OA\Property(property="category_id", type="integer", nullable=true),     
      *                 @OA\Property(property="created_at", type="string", format="date-time"),
      *                 @OA\Property(property="updated_at", type="string", format="date-time")
      *             )
@@ -106,9 +107,9 @@ class TasksController extends Controller
     {
         $query = Task::where('user_id', Auth::id());
 
-        $category = $request->has('category');
-        if ($category) {
-            $query->where('category', $category);
+        $category_id = $request->has('category_id');
+        if ($category_id) {
+            $query->where('category_id', $category_id);
         }
 
         $title = $request->get('title');
@@ -148,7 +149,7 @@ class TasksController extends Controller
      *             @OA\Property(property="id", type="integer"),
      *             @OA\Property(property="title", type="string"),
      *             @OA\Property(property="description", type="string", nullable=true),
-     *             @OA\Property(property="category", type="integer", nullable=true),     
+     *             @OA\Property(property="category_id", type="integer", nullable=true),     
      *             @OA\Property(property="created_at", type="string", format="date-time"),
      *             @OA\Property(property="updated_at", type="string", format="date-time")
      *         )
@@ -168,7 +169,7 @@ class TasksController extends Controller
         $task = new Task();
         $task->title = $request->get('title');
         $task->description = $request->get('description');
-        $task->category = $request->get('category');
+        $task->category_id = $request->get('category_id');
         $task->user_id = Auth::id();
         $task->save();
 
@@ -194,7 +195,7 @@ class TasksController extends Controller
      *             required={"title"},
      *             @OA\Property(property="title", type="string"),
      *             @OA\Property(property="description", type="string"),
-     *             @OA\Property(property="category", type="integer")
+     *             @OA\Property(property="category_id", type="integer")
      *         )
      *     ),
      *     @OA\Response(
@@ -233,7 +234,7 @@ class TasksController extends Controller
 
         $task->title = $request->get('title');
         $task->description = $request->get('description');
-        $task->category = $request->get('category');
+        $task->category_id = $request->get('category_id');
         $task->update();
 
         return response()->json($task);
@@ -291,12 +292,12 @@ class TasksController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $category = $request->get('category');
+        $category_id = $request->get('category_id');
 
-        if ($category !== null) {
-            $validCategoryIds = array_column($this->getCategories(), 'id');
+        if ($category_id !== null) {
+            $exists = Category::where('id', $category_id)->exists();
 
-            if (!in_array($category, $validCategoryIds)) {
+            if (!$exists) {
                 return response()->json(['category' => ['Category invalid.']], 400);
             }
         }

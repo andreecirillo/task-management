@@ -1,4 +1,8 @@
+import { useLoading } from '~/composables/useLoading'
+
 export const useApi = async (url: string, options: any = {}) => {
+  const { start, stop } = useLoading()
+  start()
 
   let token = ''
 
@@ -13,8 +17,12 @@ export const useApi = async (url: string, options: any = {}) => {
 
   const config = useRuntimeConfig()
 
-  return await $fetch(`${config.public.apiBase}${url}`, {
-    ...options,
-    headers
-  })
+  try {
+    return await $fetch(`${config.public.apiBase}${url}`, {
+      ...options,
+      headers
+    })
+  } finally {
+    stop()
+  }
 }
