@@ -22,7 +22,7 @@ export const useUser = {
         throw { data: result }
       }
 
-      if (result.access_token) {
+      if (result.access_token && result.user) {
         store.setUser({ name: result.user.name, email: result.user.email })
         store.setToken(result.access_token)
       }
@@ -33,16 +33,18 @@ export const useUser = {
     }
   },
 
-  async register(data: { name: string; email: string; password: string }) {
+  async register(data: any) {
     const store = useStore()
     const { start, stop } = useLoading()
     start()
 
     try {
+      const plainData = JSON.parse(JSON.stringify(data))
+
       const response = await fetch(`${this.baseURL}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify(plainData)
       })
 
       const result = await response.json()
@@ -51,7 +53,7 @@ export const useUser = {
         throw { data: result }
       }
 
-      if (result.access_token) {
+      if (result.access_token && result.user) {
         store.setUser({ name: result.user.name, email: result.user.email })
         store.setToken(result.access_token)
       }
@@ -62,13 +64,14 @@ export const useUser = {
     }
   },
 
-  async update(data: { name: string; email: string; password: string }) {
+  async update(data: any) {
     const store = useStore()
     const { start, stop } = useLoading()
     start()
 
     try {
       const token = store.token
+      const plainData = JSON.parse(JSON.stringify(data))
 
       const response = await fetch(`${this.baseURL}`, {
         method: 'PUT',
@@ -76,15 +79,17 @@ export const useUser = {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(plainData)
       })
 
       const result = await response.json()
 
-      store.setUser({ name: result.user.name, email: result.user.email })
-
       if (!response.ok) {
         throw { data: result }
+      }
+
+      if (result.user) {
+        store.setUser({ name: result.user.name, email: result.user.email })
       }
 
       return result

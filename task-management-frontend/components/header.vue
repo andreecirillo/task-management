@@ -23,7 +23,7 @@ const logout = async () => {
         </div>
 
         <h1 class="text-xl font-bold text-center flex-1">
-            Tasks Management
+            <NuxtLink to="/tasks" class="hover:underline">Tasks Management</NuxtLink>
         </h1>
 
         <nav v-if="isLogged" class="space-x-4">
