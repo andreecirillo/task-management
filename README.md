@@ -5,14 +5,10 @@ This solution consists of two main projects:
 - **Laravel Backend**: Provides the REST API for task management, authentication, and data persistence.
 - **Vue 3 Frontend**: Offers a responsive and reactive user interface for interacting with the backend API.
 
----
-
 ## Project Structure
 
 - **/task-management-backend** → Laravel 12 API with JWT authentication and Swagger documentation.
 - **/task-management-frontend** → Vue 3 + Nuxt 3 application with Inertia.js, Pinia, and VeeValidate.
-
----
 
 ## Features Overview
 
