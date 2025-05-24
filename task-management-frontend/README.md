@@ -1,75 +1,83 @@
-# Nuxt Minimal Starter
+## Task Management - Vue 3 Frontend
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+### Setup
 
-## Setup
-
-Make sure to install dependencies:
+#### 1. Install dependencies:
 
 ```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
+npm install  
 ```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+#### 3. Config backend url at nuxt.config.js and start the development server:
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
+npm run dev  
 ```
 
-## Production
+### Architecture
 
-Build the application for production:
+> Vue 3 with Composition API for component logic.
+>
+> Nuxt 3 for streamlined server-side rendering and routing.
+>
+> Pinia for centralized state management, handling user authentication, tasks, and categories.
+>
+> Inertia.js for seamless communication between the frontend and Laravel backend.
+>
+> VeeValidate for robust form validation on the client side.
 
-```bash
-# npm
-npm run build
+### Features
 
-# pnpm
-pnpm build
+#### User Authentication:
 
-# yarn
-yarn build
+- Registration
 
-# bun
-bun run build
-```
+- Login
 
-Locally preview production build:
+- Logout
 
-```bash
-# npm
-npm run preview
+- Token stored and used for authenticated API requests
 
-# pnpm
-pnpm preview
+#### Task Management:
 
-# yarn
-yarn preview
+- Create task
 
-# bun
-bun run preview
-```
+- List tasks
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+- Filter tasks by category
+
+- Search tasks by title or description
+
+#### Category Management:
+
+- Categories loaded into the Pinia store
+
+- Used for task filtering
+
+#### Reactive UI:
+
+- State-driven updates through Pinia
+
+- Real-time feedback on task filtering and searching
+
+#### Responsive Design:
+
+- Mobile-friendly and adaptable layout
+
+- Reusable components with Composition API
+
+### Authentication Middleware
+> Route middleware checks for JWT token presence before allowing access to protected views.
+>
+>Esures secure navigation throughout the frontend.
+
+### Communication with Backend
+> All API requests handled through composables for modular and reusable logic.
+>
+> Inertia.js used for SSR and page transitions, providing a SPA-like experience.
+
+### Notes
+> Centralized state ensures consistent data across components.
+> 
+> Modular architecture with composables, stores, and middleware for clean and maintainable codebase.
+>
+> Backend must be running to interact with the API endpoints.

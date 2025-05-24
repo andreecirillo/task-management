@@ -24,7 +24,7 @@ const loadTasks = async () => {
     tasks.value = data
     categories.value = store.categories
   } catch (error: any) {
-    console.error('Erro ao buscar tarefas:', error.message)
+    console.error('Tasks error:', error.message)
   }
 }
 
@@ -35,7 +35,7 @@ onMounted(() => {
 const filteredTasks = computed(() => {
   return tasks.value.filter((task: any) => {
     const matchesCategory = categoryFilter.value
-      ? task.category === categoryFilter.value
+      ? task.category_id === categoryFilter.value
       : true
     const matchesSearch =
       task.title.toLowerCase().includes(search.value.toLowerCase()) ||
@@ -58,7 +58,7 @@ const deleteTask = async (id: number) => {
     await useTask.remove(id)
     await loadTasks()
   } catch (error: any) {
-    console.error('Erro ao excluir tarefa:', error.message)
+    console.error('Task error:', error.message)
   }
 }
 
