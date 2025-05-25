@@ -27,3 +27,6 @@ RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
 # Copy custom Apache configuration  
 COPY apache.conf /etc/apache2/sites-available/000-default.conf  
+
+# Expose port 8080 for Cloud Run  
+EXPOSE 8080
