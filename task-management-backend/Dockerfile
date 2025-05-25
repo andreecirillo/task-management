@@ -5,6 +5,7 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     git \
     unzip \
+    nginx \
     && docker-php-ext-install pdo pdo_pgsql
 
 # Install Composer
@@ -22,7 +23,11 @@ RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 # Set permissions
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
-# Expose port
-EXPOSE 9000
+# Copy nginx config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-CMD ["php-fpm"]
+# Expose port 8080 for Cloud Run
+EXPOSE 8080
+
+# Start PHP-FPM and NGINX
+CMD php-fpm -D && nginx -g 'daemon off;'
