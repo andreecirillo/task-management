@@ -1,13 +1,11 @@
-FROM php:8.3-apache
-
-# Enable Apache mod_rewrite
-RUN a2enmod rewrite
+FROM php:8.3-fpm
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     git \
     unzip \
+    nginx \
     && docker-php-ext-install pdo pdo_pgsql
 
 # Install Composer
@@ -22,20 +20,14 @@ COPY . .
 # Install PHP dependencies
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
-# Set proper permissions
+# Set permissions for storage and bootstrap/cache
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
-# Force Apache to listen on port 8080
-RUN echo "Listen 8080" > /etc/apache2/ports.conf
+# Copy NGINX configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Ensure Apache uses global ServerName
-RUN echo "ServerName 0.0.0.0" >> /etc/apache2/apache2.conf
-
-# Copy custom Apache configuration
-COPY apache.conf /etc/apache2/sites-available/000-default.conf
-
-# Expose port 8080 for Cloud Run
+# Expose default port for Cloud Run
 EXPOSE 8080
 
-# Start Apache in foreground
-CMD ["apache2-foreground"]
+# Start PHP-FPM and NGINX together
+CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
