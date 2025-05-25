@@ -7,7 +7,4 @@ steps:
       - './task-management-backend'
 images:
   - 'gcr.io/$PROJECT_ID/task-management-backend:$COMMIT_SHA'
-options:
-  logging: CLOUD_LOGGING_ONLY
-logsBucket: 'gs://pure-quasar-logs'
-
+logsBucket: 'gs://pure-quasar-build-logs'
