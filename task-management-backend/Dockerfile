@@ -29,4 +29,7 @@ RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 COPY apache.conf /etc/apache2/sites-available/000-default.conf  
 
 # Expose port 8080 for Cloud Run  
-EXPOSE 8080
+EXPOSE 8080  
+
+# Start Apache in foreground  
+CMD ["apache2-foreground"]  
