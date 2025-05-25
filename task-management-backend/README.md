@@ -8,13 +8,15 @@
 composer install
 ```
 
-### 2. Configure database access at .env and run migrations and seeders:
+### 2. Copy the .env.example file to .env and update the variables as needed.
+
+### 3. Run migrations and seeders:
 
 ```bash
 php artisan migrate --seed
 ```
 
-### 3. Start the development server:
+### 4. Start the development server:
 
 ```bash
 php artisan serve
