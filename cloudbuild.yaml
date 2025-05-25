@@ -1,6 +1,9 @@
 steps:
   - name: 'gcr.io/cloud-builders/docker'
-    args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/task-management-backend', '.' ]
-    dir: 'backend'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/task-management-backend'
+      - './task-management-backend'
 images:
   - 'gcr.io/$PROJECT_ID/task-management-backend'
