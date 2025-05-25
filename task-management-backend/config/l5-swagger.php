@@ -45,7 +45,7 @@ return [
                  */
                 'annotations' => [
                     base_path('app/Swagger'),
-                    base_path('app/Http/Controllers'), 
+                    base_path('app/Http/Controllers'),
                 ],
             ],
         ],
@@ -78,6 +78,8 @@ return [
             'group_options' => [],
         ],
 
+        'schemes' => ['https'],
+
         'paths' => [
             /*
              * Absolute path to location where parsed annotations will be stored
@@ -109,8 +111,8 @@ return [
              * @link https://zircote.github.io/swagger-php/reference/processors.html
              */
             'default_processors_configuration' => [
-            /** Example */
-            /**
+                /** Example */
+                /**
              * 'operationId.hash' => true,
              * 'pathFilter' => [
              * 'tags' => [
@@ -172,11 +174,11 @@ return [
         'securityDefinitions' => [
             'securitySchemes' => [
                 'bearerAuth' => [
-                'type' => 'http',
-                'scheme' => 'bearer',
-                'bearerFormat' => 'JWT',
-                'description' => 'Enter token in format: Bearer <token>',
-            ],
+                    'type' => 'http',
+                    'scheme' => 'bearer',
+                    'bearerFormat' => 'JWT',
+                    'description' => 'Enter token in format: Bearer <token>',
+                ],
                 /*
                  * Examples of Security schemes
                  */
@@ -223,7 +225,7 @@ return [
                 //     'in' => 'header', // The location of the API key. Valid values are "query" or "header".
                 // ],                
             ],
-            'security' => [                
+            'security' => [
                 /*
                  * Examples of Securities
                  */
@@ -235,8 +237,7 @@ return [
                     ],
 
                     'passport' => []
-                    */
-                ],
+                    */],
             ],
         ],
 

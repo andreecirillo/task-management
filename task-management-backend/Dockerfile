@@ -17,6 +17,9 @@ WORKDIR /var/www
 # Copy project files
 COPY . .
 
+# Copy .env.production as .env
+COPY .env.production .env
+
 # Install PHP dependencies
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
