@@ -3,9 +3,9 @@ steps:
     args:
       - 'build'
       - '-t'
-      - 'us-central1-docker.pkg.dev/$PROJECT_ID/task-management/task-management-backend:$COMMIT_SHA'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/task-management-backend/task-management-backend:$COMMIT_SHA'
       - './task-management-backend'
 images:
-  - 'us-central1-docker.pkg.dev/$PROJECT_ID/task-management/task-management-backend:$COMMIT_SHA'
+  - 'us-central1-docker.pkg.dev/$PROJECT_ID/task-management-backend/task-management-backend:$COMMIT_SHA'
 options:
   logging: CLOUD_LOGGING_ONLY
