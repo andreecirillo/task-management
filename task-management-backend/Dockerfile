@@ -1,35 +1,41 @@
-FROM php:8.3-apache  
+FROM php:8.3-apache
 
-# Enable Apache mod_rewrite  
-RUN a2enmod rewrite  
+# Enable Apache mod_rewrite
+RUN a2enmod rewrite
 
-# Install system dependencies  
-RUN apt-get update && apt-get install -y \  
-    libpq-dev \  
-    git \  
-    unzip \  
-    && docker-php-ext-install pdo pdo_pgsql  
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    git \
+    unzip \
+    && docker-php-ext-install pdo pdo_pgsql
 
-# Install Composer  
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer  
+# Install Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Set working directory  
-WORKDIR /var/www  
+# Set working directory
+WORKDIR /var/www
 
-# Copy project files  
-COPY . .  
+# Copy project files
+COPY . .
 
-# Install PHP dependencies  
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader  
+# Install PHP dependencies
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
-# Set proper permissions  
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache  
+# Set proper permissions
+RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
-# Copy custom Apache configuration  
-COPY apache.conf /etc/apache2/sites-available/000-default.conf  
+# Force Apache to listen on port 8080
+RUN echo "Listen 8080" > /etc/apache2/ports.conf
 
-# Expose port 8080 for Cloud Run  
-EXPOSE 8080  
+# Ensure Apache uses global ServerName
+RUN echo "ServerName 0.0.0.0" >> /etc/apache2/apache2.conf
 
-# Start Apache in foreground  
+# Copy custom Apache configuration
+COPY apache.conf /etc/apache2/sites-available/000-default.conf
+
+# Expose port 8080 for Cloud Run
+EXPOSE 8080
+
+# Start Apache in foreground
 CMD ["apache2-foreground"]
