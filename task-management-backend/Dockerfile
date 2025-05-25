@@ -17,9 +17,6 @@ WORKDIR /var/www
 # Copy project files
 COPY . .
 
-# Install PHP dependencies
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader
-
 # Set permissions
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
@@ -29,5 +26,5 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Expose port 8080 for Cloud Run
 EXPOSE 8080
 
-# Start PHP-FPM and NGINX together
-CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
+# Start PHP-FPM, NGINX, and run composer install
+CMD composer install --no-interaction --prefer-dist --optimize-autoloader && php-fpm -D && nginx -g 'daemon off;'
