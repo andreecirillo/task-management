@@ -7,7 +7,3 @@ steps:
       - './task-management-backend'
 images:
   - 'gcr.io/$PROJECT_ID/task-management-backend:$COMMIT_SHA'
-options:
-  logging: CLOUD_LOGGING_ONLY
-  default_logs_bucket_behavior: REGIONAL_USER_OWNED_BUCKET
-logsBucket: gs://staging.pure-quasar-460821-j1.appspot.com
