@@ -16,13 +16,14 @@ WORKDIR /var/www
 # Copy project files
 COPY . .
 
-# Install Laravel dependencies
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+# Install Laravel dependencies (prod)
+RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# Permissions for storage and bootstrap/cache
+# Set permissions
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
-# Exposed port
+# Expose port for PHP-FPM
 EXPOSE 9000
 
+# Start PHP-FPM
 CMD ["php-fpm"]
