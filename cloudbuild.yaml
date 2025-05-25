@@ -9,6 +9,5 @@ images:
   - 'gcr.io/$PROJECT_ID/task-management-backend:$COMMIT_SHA'
 options:
   logging: CLOUD_LOGGING_ONLY
-serviceAccount: 'task-management-backend@pure-quasar-460821-j1.iam.gserviceaccount.com'
-logsBucket: 'staging.pure-quasar-460821-j1.appspot.com'
+logsBucket: 'gs://pure-quasar-logs'
 
