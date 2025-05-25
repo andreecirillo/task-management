@@ -29,5 +29,5 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Expose port 8080 for Cloud Run
 EXPOSE 8080
 
-# Start PHP-FPM and NGINX
-CMD php-fpm -D && nginx -g 'daemon off;'
+# Start PHP-FPM and NGINX together
+CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
