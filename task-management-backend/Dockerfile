@@ -20,13 +20,13 @@ COPY . .
 # Install PHP dependencies
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
-# Set permissions
+# Set permissions for storage and bootstrap/cache
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
-# Copy nginx config
+# Copy NGINX configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expose port 8080 for Cloud Run
+# Expose default port for Cloud Run
 EXPOSE 8080
 
 # Start PHP-FPM and NGINX together
