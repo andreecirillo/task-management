@@ -1,6 +1,3 @@
-options:
-  logging: CLOUD_LOGGING_ONLY
-
 steps:
   - name: 'gcr.io/cloud-builders/docker'
     args:
@@ -8,6 +5,7 @@ steps:
       - '-t'
       - 'gcr.io/$PROJECT_ID/task-management-backend'
       - './task-management-backend'
-
 images:
   - 'gcr.io/$PROJECT_ID/task-management-backend'
+options:
+  logging: CLOUD_LOGGING_ONLY
