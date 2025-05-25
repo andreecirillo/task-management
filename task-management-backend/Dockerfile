@@ -29,5 +29,8 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Expose default port for Cloud Run
 EXPOSE 8080
 
+# Add explicit execution permission for sh (best practice but optional here)
+RUN chmod +x /usr/bin/sh
+
 # Start PHP-FPM and NGINX together
 CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
