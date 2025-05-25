@@ -3,9 +3,9 @@ steps:
     args:
       - 'build'
       - '-t'
-      - 'gcr.io/$PROJECT_ID/task-management-backend:$COMMIT_SHA'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/task-management/task-management-backend:$COMMIT_SHA'
       - './task-management-backend'
 images:
-  - 'gcr.io/$PROJECT_ID/task-management-backend:$COMMIT_SHA'
+  - 'us-central1-docker.pkg.dev/$PROJECT_ID/task-management/task-management-backend:$COMMIT_SHA'
 options:
   logging: CLOUD_LOGGING_ONLY
