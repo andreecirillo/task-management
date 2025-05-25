@@ -1,4 +1,9 @@
 vendor
 node_modules
+.env
 .git
-tests
+.gitignore
+Dockerfile
+docker-compose.yml
+nginx.conf
+README.md
