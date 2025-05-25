@@ -1,33 +1,29 @@
-FROM php:8.3-fpm
+FROM php:8.3-apache  
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    git \
-    unzip \
-    nginx \
-    && docker-php-ext-install pdo pdo_pgsql
+# Enable Apache mod_rewrite  
+RUN a2enmod rewrite  
 
-# Install Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+# Install system dependencies  
+RUN apt-get update && apt-get install -y \  
+    libpq-dev \  
+    git \  
+    unzip \  
+    && docker-php-ext-install pdo pdo_pgsql  
 
-# Set working directory
-WORKDIR /var/www
+# Install Composer  
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer  
 
-# Copy project files
-COPY . .
+# Set working directory  
+WORKDIR /var/www  
 
-# Install PHP dependencies
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+# Copy project files  
+COPY . .  
 
-# Set permissions for storage and bootstrap/cache
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+# Install PHP dependencies  
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader  
 
-# Copy NGINX configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Set proper permissions  
+RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache  
 
-# Expose default port for Cloud Run
-EXPOSE 8080
-
-# Start PHP-FPM and NGINX together
-CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
+# Copy custom Apache configuration  
+COPY apache.conf /etc/apache2/sites-available/000-default.conf  
