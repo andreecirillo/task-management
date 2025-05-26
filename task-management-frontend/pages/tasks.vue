@@ -5,18 +5,18 @@ definePageMeta({
 
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { useTask } from '~/composables/useTask'
+import { useTask, type Task } from '~/composables/useTask'
+import { useCategory, type Category } from '~/composables/useCategory'
 import { useStore } from '~/stores/useStore'
 
 const store = useStore()
-
 const router = useRouter()
 
-const tasks = ref([])
-const categories = ref([])
+const tasks = ref<Task[]>([])
+const categories = ref<Category[]>([])
 
 const search = ref('')
-const categoryFilter = ref('')
+const categoryFilter = ref<number | ''>('')
 
 const loadTasks = async () => {
   try {
@@ -33,13 +33,17 @@ onMounted(() => {
 })
 
 const filteredTasks = computed(() => {
-  return tasks.value.filter((task: any) => {
+  return tasks.value.filter((task) => {
     const matchesCategory = categoryFilter.value
       ? task.category_id === categoryFilter.value
       : true
+
+    const title = task.title || ''
+    const description = task.description || ''
+
     const matchesSearch =
-      task.title.toLowerCase().includes(search.value.toLowerCase()) ||
-      task.description.toLowerCase().includes(search.value.toLowerCase())
+      title.toLowerCase().includes(search.value.toLowerCase()) ||
+      description.toLowerCase().includes(search.value.toLowerCase())
 
     return matchesCategory && matchesSearch
   })
@@ -49,11 +53,11 @@ const addTask = async () => {
   router.push('/task')
 }
 
-const editTask = async (task: any) => {
+const editTask = async (task: Task) => {
   router.push('/task?id=' + task.id)
 }
 
-const deleteTask = async (id: number) => {
+const deleteTask = async (id: string) => {
   try {
     await useTask.remove(id)
     await loadTasks()
@@ -62,20 +66,16 @@ const deleteTask = async (id: number) => {
   }
 }
 
-function getCategoryName(category_id: number | null) {
+function getCategoryName(category_id: number | null | undefined) {
   if (!category_id) return ''
 
   const category = categories.value.find(cat => cat.id === category_id)
-
   return category ? category.name : ''
 }
-
-
 </script>
 
 <template>
   <div class="p-4 max-w-4xl mx-auto">
-
     <h2 class="text-2xl font-bold mb-6">Tasks</h2>
 
     <!-- Filtros -->
@@ -108,7 +108,7 @@ function getCategoryName(category_id: number | null) {
           <button @click="editTask(task)" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">
             Editar
           </button>
-          <button @click="deleteTask(task.id)" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
+          <button @click="deleteTask(task.id.toString())" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
             Excluir
           </button>
         </div>

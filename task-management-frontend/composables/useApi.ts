@@ -1,6 +1,6 @@
 import { useLoading } from '~/composables/useLoading'
 
-export const useApi = async (url: string, options: any = {}) => {
+export const useApi = async <T>(url: string, options: any = {}): Promise<T> => {
   const { start, stop } = useLoading()
   start()
 
@@ -18,7 +18,7 @@ export const useApi = async (url: string, options: any = {}) => {
   const config = useRuntimeConfig()
 
   try {
-    return await $fetch(`${config.public.apiBase}${url}`, {
+    return await $fetch<T>(`${config.public.apiBase}${url}`, {
       ...options,
       headers
     })

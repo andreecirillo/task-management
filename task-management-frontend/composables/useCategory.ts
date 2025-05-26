@@ -1,5 +1,12 @@
 import { useApi } from '~/composables/useApi'
 
-export const useCategory =  {
-  async fetchAll () { return await useApi('/categories') },
+export interface Category {
+  id: number
+  name: string
+}
+
+export const useCategory = {
+  async fetchAll(): Promise<Category[]> {
+    return await useApi<Category[]>('/categories')
+  }
 }

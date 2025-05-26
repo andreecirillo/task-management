@@ -5,6 +5,12 @@ import { useCategory } from '~/composables/useCategory'
 import { useStore } from '~/stores/useStore'
 import { useForm, useField } from 'vee-validate'
 import * as yup from 'yup'
+import { ref } from 'vue'
+
+interface LoginForm {
+  email: string
+  password: string
+}
 
 const store = useStore()
 const router = useRouter()
@@ -14,7 +20,7 @@ const schema = yup.object({
   password: yup.string().required('Password is required')
 })
 
-const { handleSubmit, errors } = useForm({
+const { handleSubmit, errors } = useForm<LoginForm>({
   validationSchema: schema
 })
 

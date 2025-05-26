@@ -1,8 +1,12 @@
 import { useStore } from '~/stores/useStore'
 import { useLoading } from '~/composables/useLoading'
+import { useRuntimeConfig } from '#imports'
 
 export const useUser = {
-  baseURL: 'http://127.0.0.1:8000/api/users',
+  get baseURL() {
+    const config = useRuntimeConfig()
+    return `${config.public.apiBase}/users`
+  },
 
   async login(credentials: { email: string; password: string }) {
     const store = useStore()
