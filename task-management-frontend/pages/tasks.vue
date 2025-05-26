@@ -106,10 +106,11 @@ function getCategoryName(category_id: number | null | undefined) {
         </div>
         <div class="flex gap-2 mt-2 md:mt-0">
           <button @click="editTask(task)" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">
-            Editar
+            Edit
           </button>
-          <button @click="deleteTask(task.id.toString())" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
-            Excluir
+          <button @click="deleteTask(task.id.toString())"
+            class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
+            Remove
           </button>
         </div>
       </li>
