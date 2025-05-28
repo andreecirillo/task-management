@@ -18,7 +18,7 @@ WORKDIR /var/www
 COPY . .
 
 # Copy .env.production as .env
-COPY .env.production .env
+COPY .env.production.google .env
 
 # Install PHP dependencies
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader

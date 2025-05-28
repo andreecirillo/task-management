@@ -9,19 +9,25 @@
         "dest": "/api/index.php"
     }],
     "env": {
+        "APP_NAME": "Laravel",
         "APP_ENV": "production",
-        "APP_DEBUG": "true",
+        "APP_KEY": "base64:P1gHdetkRumwwgFA+eUh4Jptt+i6gQ9FUQCuTgqdG9g=",
+        "APP_DEBUG": "false",
         "APP_URL": "http://localhost",
-
+        "DB_CONNECTION": "sqlite",
+        "DB_DATABASE": "database/task_management.sqlite",
+        "JWT_SECRET": "PaWDhS1QYObSGwFPLK3XEAfnP5CZpjIzmwVgoEwWvw4ciN5lP74yVJj5ieLWmLCI",
+        "L5_SWAGGER_BASE_PATH": "http://localhost/api",
+        "L5_SWAGGER_USE_ABSOLUTE_PATH": "true",
+                
         "APP_CONFIG_CACHE": "/tmp/config.php",
         "APP_EVENTS_CACHE": "/tmp/events.php",
         "APP_PACKAGES_CACHE": "/tmp/packages.php",
         "APP_ROUTES_CACHE": "/tmp/routes.php",
         "APP_SERVICES_CACHE": "/tmp/services.php",
         "VIEW_COMPILED_PATH": "/tmp",
-
         "CACHE_DRIVER": "array",
         "LOG_CHANNEL": "stderr",
-        "SESSION_DRIVER": "cookie"
+        "SESSION_DRIVER": "cookie"        
     }
 }
